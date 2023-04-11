@@ -22,12 +22,12 @@ def hit(req: func.HttpRequest) -> func.HttpResponse:
     table_client = table_service_client.get_table_client(table_name=table_name)
     curr_count = table_client.get_entity(partition_key="1", row_key="1")
     logging.info(curr_count)
-    timestamp = curr_count["Timestamp"]
+    # timestamp = curr_count["Timestamp"]
     curr_count = curr_count["Count"]
     curr_count += 1
     table_client.update_entity(mode=UpdateMode.REPLACE, entity={
                                "PartitionKey": "1", "RowKey": "1", "Count": curr_count})
     return func.HttpResponse(
-        str(curr_count) + ";" + str(timestamp),
+        str(curr_count),  # + ";" + str(timestamp),
         status_code=200
     )
